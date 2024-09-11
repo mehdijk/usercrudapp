@@ -1,0 +1,87 @@
+#%RAML 1.0
+title: User CRUD API
+version: v1
+baseUri: http://localhost:8081/users
+
+/users:
+  get:
+    description: Retrieve all users
+    responses:
+      200:
+        body:
+          application/json:
+            type: User[]
+  post:
+    description: Create a new user
+    body:
+      application/json:
+        type: User
+    responses:
+      201:
+        body:
+          application/json:
+            type: User
+  /{id}:
+    get:
+      description: Retrieve a single user by ID
+      responses:
+        200:
+          body:
+            application/json:
+              type: User
+        404:
+          description: User not found
+    put:
+      description: Update a user by ID
+      body:
+        application/json:
+          type: User
+      responses:
+        200:
+          body:
+            application/json:
+              type: User
+    patch:
+      description: Update part of a user by ID
+      body:
+        application/json:
+          type: PartialUser
+      responses:
+        200:
+          body:
+            application/json:
+              type: User
+    delete:
+      description: Delete a user by ID
+      responses:
+        204:
+          description: User deleted successfully
+  /search:
+    get:
+      description: Search for users by name or surname
+      queryParameters:
+        nome?: string
+        cognome?: string
+      responses:
+        200:
+          body:
+            application/json:
+              type: User[]
+
+types:
+  User:
+    type: object
+    properties:
+      id?: integer
+      nome: string
+      cognome: string
+      mail?: string | nil
+      indirizzo?: string | nil
+  PartialUser:
+    type: object
+    properties:
+      nome?: string
+      cognome?: string
+      mail?: string
+      indirizzo?: string
+
